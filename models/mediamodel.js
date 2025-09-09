@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const mediaSchema = new mongoose.Schema({
-    media_name: String,
+    filename: String,
+    originalname:String,
     media_status: {type:Number, enum:[0,1], default:1},
 },
 {

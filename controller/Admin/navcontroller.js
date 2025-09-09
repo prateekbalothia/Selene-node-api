@@ -6,16 +6,17 @@ const getnavbar = async (req, res) => {
 }
 
 const updateNav = async (req,res) => {
-    const {_id} = req.body;
+    console.log(req.params);
+    const {id} = req.params;
 
-    const navItem = await navmodel.findById(_id);
+    const navItem = await navmodel.findById(id);
     if (!navItem) {
         return res.send({ status: "error", message: "Not found" });
     }
     const newStatus = navItem.navbar_status === 1 ? 0 : 1;
 
     await navmodel.updateOne(
-        {_id},
+        {_id:id},
         { $set: { navbar_status: newStatus } }
     )
     return res.send({ status: "success", message:'status updated successfully' })
@@ -45,7 +46,7 @@ const addnavbar = async (req, res) => {
 };
 
 const deleteNav = async (req,res) => {
-    const {_id} = req.body;
+    const {_id} = req.params;
     await navmodel.deleteOne({ _id: _id })
     return res.send({status:"success", message:"Deleted successfully"})
 }
