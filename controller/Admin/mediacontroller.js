@@ -28,7 +28,7 @@ const deleteMedia = async (req,res) => {
 }
 
 const updateMedia = async (req,res) => {
-    console.log(req.params);
+    // console.log(req.params);
     const {_id} = req.params;
     const mediaFile = await mediamodel.findById(_id);
     if (!mediaFile) {
