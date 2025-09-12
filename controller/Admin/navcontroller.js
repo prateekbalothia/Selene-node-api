@@ -2,19 +2,19 @@ const navmodel = require('../../models/navmodel')
 
 const getnavbar = async (req, res) => {
     let menuItems = await navmodel.find();
-    return res.send({"status":"success",data:menuItems})
+    return res.send({ "status": "success", data: menuItems })
 }
 const getnavbarbyid = async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     console.log(id)
     const navItem = await navmodel.findById(id);
 
-    return res.send({"status":"success",data:navItem})
-   
+    return res.send({ "status": "success", data: navItem })
+
 }
 
-const updateNav = async (req,res) => {
-    const {id} = req.params;
+const updateNav = async (req, res) => {
+    const { id } = req.params;
 
     const navItem = await navmodel.findById(id);
     if (!navItem) {
@@ -23,10 +23,10 @@ const updateNav = async (req,res) => {
     const newStatus = navItem.navbar_status === 1 ? 0 : 1;
 
     await navmodel.updateOne(
-        {_id:id},
+        { _id: id },
         { $set: { navbar_status: newStatus } }
     )
-    return res.send({ status: "success", message:'status updated successfully' })
+    return res.send({ status: "success", message: 'status updated successfully' })
 }
 
 function createSlug(str) {
@@ -41,29 +41,37 @@ function createSlug(str) {
 const addnavbarProcess = async (req, res) => {
     const { _id, navbar_name } = req.body;
     const navbar_slug = createSlug(navbar_name)
+    const existing = await navmodel.find({ navbar_name })
 
-    let savedNavbar;
-    if(_id){
-        const savedNavbar = await navmodel.findByIdAndUpdate(
-            _id,
-            {navbar_name,navbar_slug}
-        )
-    }else{
-        const newNavbar = new navmodel({
-            navbar_name,
-            navbar_slug
-        });
-        const savedNavbar = await newNavbar.save();
+    if (existing && existing !== "") {
+        return res.send({ status: "error", message: "⚠️Field already exists!" })
+    } else {
+
+
+
+        let savedNavbar;
+        if (_id && _id !== "" && Number(_id) !== 0) {
+            const savedNavbar = await navmodel.findByIdAndUpdate(
+                _id,
+                { navbar_name, navbar_slug }
+            )
+        } else {
+            const newNavbar = new navmodel({
+                navbar_name,
+                navbar_slug
+            });
+            const savedNavbar = await newNavbar.save();
+        }
+
+
+        return res.send({ status: "success", data: savedNavbar })
     }
-
-
-    return res.send({status:"success", data : savedNavbar})
 };
 
-const deleteNav = async (req,res) => {
-    const {id} = req.params;
+const deleteNav = async (req, res) => {
+    const { id } = req.params;
     await navmodel.deleteOne({ _id: id })
-    return res.send({status:"success", message:"Deleted successfully"})
+    return res.send({ status: "success", message: "Deleted successfully" })
 }
 
-module.exports = {getnavbar,updateNav,addnavbarProcess, deleteNav, getnavbarbyid}
+module.exports = { getnavbar, updateNav, addnavbarProcess, deleteNav, getnavbarbyid }

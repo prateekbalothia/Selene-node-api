@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
         cb(null, Date.now()  + path.extname(file.originalname));
     }
 })
-const upload = multer({storage:storage}).single("myfile")
+const upload = multer({storage:storage}).single("upload_image")
 
 
 module.exports = {upload};

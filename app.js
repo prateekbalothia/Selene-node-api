@@ -1,14 +1,10 @@
-// const path =require('path');
 const mongoose = require('mongoose')
 const express = require('express');
 const app = express();
 const cors = require('cors')
-// const env = require('env')
 const path = require('path');
 require('dotenv').config();
 
-
-// console.log(process.env.mongo_url);
 mongoose.connect(process.env.mongo_url)
 
 app.use(express.json())
