@@ -6,7 +6,7 @@ const getnavbar = async (req, res) => {
 }
 const getnavbarbyid = async (req, res) => {
     const { id } = req.params;
-    console.log(id)
+    // console.log(id)
     const navItem = await navmodel.findById(id);
 
     return res.send({ "status": "success", data: navItem })
@@ -39,33 +39,41 @@ function createSlug(str) {
 }
 
 const addnavbarProcess = async (req, res) => {
-    const { _id, navbar_name } = req.body;
-    const navbar_slug = createSlug(navbar_name)
-    const existing = await navmodel.find({ navbar_name })
+    const data = req.body;
+    const navbar_slug = createSlug(data.navbar_name)
+    let name = data.navbar_name
+    let savedNavbar;
+    if (data._id && data._id !== "" && Number(data._id) !== 0) {
+        const idData = await navmodel.findById({ _id: data._id })
 
-    if (existing && existing !== "") {
-        return res.send({ status: "error", message: "⚠️Field already exists!" })
+        if (!(idData.navbar_name === req.body.navbar_name)) {
+            const alreadyExistName = await navmodel.findOne({ navbar_name: req.body.navbar_name })
+            if (alreadyExistName !== "") {
+                return res.send({ status: "error", message: "⚠️Field already exists!" })
+            }
+        }
+        savedNavbar = await navmodel.findByIdAndUpdate(
+            data._id,
+            { navbar_name: req.body.navbar_name, navbar_slug: req.body.navbar_slug }
+        )
     } else {
 
-
-
-        let savedNavbar;
-        if (_id && _id !== "" && Number(_id) !== 0) {
-            const savedNavbar = await navmodel.findByIdAndUpdate(
-                _id,
-                { navbar_name, navbar_slug }
-            )
-        } else {
-            const newNavbar = new navmodel({
-                navbar_name,
-                navbar_slug
-            });
-            const savedNavbar = await newNavbar.save();
+        const alreadyExistName = await navmodel.findOne({ navbar_name: req.body.navbar_name })
+        // console.log(alreadyExistName);
+        // return false
+        if (alreadyExistName !== null) {
+            return res.send({ status: "error", message: "⚠️Field already exists!" })
         }
-
-
-        return res.send({ status: "success", data: savedNavbar })
+        const newNavbar = new navmodel({
+            navbar_name: req.body.navbar_name,
+            navbar_slug: req.body.navbar_slug
+        });
+        savedNavbar = await newNavbar.save();
     }
+
+
+    return res.send({ status: "success", data: savedNavbar })
+
 };
 
 const deleteNav = async (req, res) => {

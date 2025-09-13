@@ -26,8 +26,6 @@ function createSlug(str) {
 
 const addProductProcess = async (req, res) => {
     const filenamee = req?.file?.filename;
-    // console.log("got image:-", filenamee)
-
     const {
         _id,
         product_name,
@@ -64,8 +62,6 @@ const addProductProcess = async (req, res) => {
             image = filenamee
         }
         
-    //    console.log(image);
-    //     return false
         const saveProduct = await productmodel.findByIdAndUpdate(
             _id,
             {
