@@ -5,6 +5,7 @@ const {themeset} = require('../../controller/Admin/infocontroller')
 const {getnavbar,updateNav,deleteNav, getnavbarbyid, addnavbarProcess} = require('../../controller/Admin/navcontroller')
 const {getMedia, uploadFile, deleteMedia, updateMedia} = require('../../controller/Admin/mediacontroller')
 const { addProductProcess, allProducts, productDeleteProcess, productUpdateProcess, productById } = require('../../controller/Admin/productcontroller');
+const { addCatagoryProcess, allCatagories, catStatusUpdate, catagoryById } = require('../../controller/Admin/catagorycontroller');
 
 const {upload} = require('../../middlewares/MediaIn');
 
@@ -23,5 +24,9 @@ router.get('/all-products-by-id/:id', productById)
 router.post('/product-add-process',upload, addProductProcess)
 router.get('/product-delete-process/:_id', productDeleteProcess)
 router.get('/product-status-process/:_id', productUpdateProcess)
+router.get('/all-catagory', allCatagories)
+router.post('/catagory-add-process', addCatagoryProcess)
+router.get('/catagory-status-update/:id', catStatusUpdate)
+router.get('/catagory-by-id/:id', catagoryById)
 
 module.exports=router

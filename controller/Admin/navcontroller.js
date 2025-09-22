@@ -41,31 +41,43 @@ function createSlug(str) {
 const addnavbarProcess = async (req, res) => {
     const data = req.body;
     const navbar_slug = createSlug(data.navbar_name)
-    let name = data.navbar_name
+    let reqName = data.navbar_name
+    
     let savedNavbar;
     if (data._id && data._id !== "" && Number(data._id) !== 0) {
         const idData = await navmodel.findById({ _id: data._id })
+        const existingName = idData.navbar_name
+        const lowExisting = existingName.toLowerCase()
+        const lowReqName = reqName.toLowerCase()
+        
+        console.log(lowExisting);
+        console.log(lowReqName);
+                
 
-        if (!(idData.navbar_name === req.body.navbar_name)) {
-            const alreadyExistName = await navmodel.findOne({ navbar_name: req.body.navbar_name })
-            if (alreadyExistName !== "") {
+        if (existingName !== reqName) {
+            const alreadyExistName = await navmodel.findOne({ navbar_name: reqName })
+            console.log(alreadyExistName);
+            
+            if (alreadyExistName !== null) {
+                // console.log(alreadyExistName)
                 return res.send({ status: "error", message: "⚠️Field already exists!" })
             }
         }
         savedNavbar = await navmodel.findByIdAndUpdate(
             data._id,
-            { navbar_name: req.body.navbar_name, navbar_slug: req.body.navbar_slug }
+            { navbar_name: reqName, navbar_slug: req.body.navbar_slug }
         )
+        
     } else {
 
-        const alreadyExistName = await navmodel.findOne({ navbar_name: req.body.navbar_name })
+        const alreadyExistName = await navmodel.findOne({ navbar_name: reqName})
         // console.log(alreadyExistName);
         // return false
         if (alreadyExistName !== null) {
             return res.send({ status: "error", message: "⚠️Field already exists!" })
         }
         const newNavbar = new navmodel({
-            navbar_name: req.body.navbar_name,
+            navbar_name: reqName,
             navbar_slug: req.body.navbar_slug
         });
         savedNavbar = await newNavbar.save();

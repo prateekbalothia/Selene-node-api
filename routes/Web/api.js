@@ -7,7 +7,7 @@ const {newsletter} = require('../../controller/Web/newscontroller');
 const {contactUser} = require('../../controller/Web/usercontroller');
 const {getInfo, themesetting} = require('../../controller/Web/infocontroller')
 const {addPage,getPage} = require('../../controller/Web/pagecontroller');
-const { allProducts } = require('../../controller/Web/productcontroller');
+const { allProducts, findProduct } = require('../../controller/Web/productcontroller');
 
 router.get('/navbar',getnavbar)
 router.post('/navbar',addnavbar)
@@ -19,6 +19,7 @@ router.post('/themesetting',themesetting)
 router.post('/pages',addPage)
 router.get('/pages',getPage)
 router.get('/all-products', allProducts)
+router.get('/product-details/:slug',findProduct)
 
 
 module.exports=router
