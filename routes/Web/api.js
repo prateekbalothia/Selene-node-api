@@ -7,7 +7,8 @@ const {newsletter} = require('../../controller/Web/newscontroller');
 const {contactUser} = require('../../controller/Web/usercontroller');
 const {getInfo, themesetting} = require('../../controller/Web/infocontroller')
 const {addPage,getPage} = require('../../controller/Web/pagecontroller');
-const { allProducts, findProduct } = require('../../controller/Web/productcontroller');
+const { allProducts, findProduct, productByCatagory } = require('../../controller/Web/productcontroller');
+const { allCatagories } = require('../../controller/Web/catagorycontroller');
 
 router.get('/navbar',getnavbar)
 router.post('/navbar',addnavbar)
@@ -20,6 +21,9 @@ router.post('/pages',addPage)
 router.get('/pages',getPage)
 router.get('/all-products', allProducts)
 router.get('/product-details/:slug',findProduct)
+router.get('/all-catagory', allCatagories)
+router.get('/product-by-catagory/:id', productByCatagory)
+router.get('/product-by-catagory', productByCatagory)
 
 
 module.exports=router

@@ -1,8 +1,8 @@
 const catagorymodel = require('../../models/catagorymodel');
 
 const allCatagories = async (req,res) => {
-    const data = await catagorymodel.find();
-    res.send({status:"success",data:data}) 
+    const data = await catagorymodel.find()
+    return res.send({status:"success", data:data}) 
 }
 
 const addCatagoryProcess = async (req,res) => {
@@ -69,4 +69,11 @@ const catagoryById = async (req, res) => {
     return res.send({status:"success", data:catagoryId})
 }
 
-module.exports = {allCatagories ,addCatagoryProcess, catStatusUpdate, catagoryById}
+const deleteCatagory = async (req,res) => {
+    const {id} = req.params
+    await catagorymodel.deleteOne({_id:id})
+    return res.send({status:"success", message:"Catagory Deleted Successfully"})
+
+}
+
+module.exports = {allCatagories ,addCatagoryProcess, catStatusUpdate, catagoryById, deleteCatagory}

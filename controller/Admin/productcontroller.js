@@ -12,7 +12,7 @@ const productById = async (req, res) => {
     const { id } = req.params
     const product = await productmodel.findById(id)
 
-    return res.send({ status: "success", data: product ,image_upload_path: process.env.media_upload_path })
+    return res.send({ status: "success", data: product, image_upload_path: process.env.media_upload_path })
 }
 
 function createSlug(str) {
@@ -38,7 +38,8 @@ const addProductProcess = async (req, res) => {
         product_mrp,
         meta_description,
         meta_title,
-        meta_keyword, } = req.body;
+        meta_keyword,
+        product_cat_id } = req.body;
 
     if (!product_slug) {
         const product_slug = createSlug(product_name)
@@ -54,14 +55,16 @@ const addProductProcess = async (req, res) => {
         }
     }
 
+    
     let saveProduct;
-       
+
+    const ids = req?.body?.product_cat_id?.split(",");
     if (_id && _id !== "" && Number(_id) !== 0) {
         let image;
         if (filenamee && filenamee !== "" && filenamee !== undefined) {
             image = filenamee
         }
-        
+
         const saveProduct = await productmodel.findByIdAndUpdate(
             _id,
             {
@@ -73,10 +76,11 @@ const addProductProcess = async (req, res) => {
                 product_selling_price,
                 product_discount_price,
                 product_mrp,
-                product_image:image,
+                product_image: image,
                 meta_description,
                 meta_title,
-                meta_keyword
+                meta_keyword,
+                product_cat_id: ids,
             }
         )
     } else {
@@ -90,10 +94,11 @@ const addProductProcess = async (req, res) => {
             product_selling_price,
             product_discount_price,
             product_mrp,
-            product_image: filenamee!==undefined?filenamee:"",
+            product_image: filenamee !== undefined ? filenamee : "",
             meta_description,
             meta_title,
-            meta_keyword
+            meta_keyword,
+            product_cat_id:ids
         })
         const saveProduct = await newProduct.save();
 

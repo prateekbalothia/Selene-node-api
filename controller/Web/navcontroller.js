@@ -1,6 +1,8 @@
 const navmodel = require('../../models/navmodel')
 
 const getnavbar = async (req, res) => {
+    // console.log("nav hit");
+    
     let data = await navmodel.find();
     res.send(data)
 }

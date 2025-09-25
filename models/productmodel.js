@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
     product_selling_price: Number,
     product_discount_price: Number,
     product_mrp: Number,
+    product_cat_id:[String],
     product_image: {
         type:String,
         default:""
