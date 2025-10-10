@@ -6,9 +6,10 @@ const {getnavbar,updateNav,deleteNav, getnavbarbyid, addnavbarProcess} = require
 const {getMedia, uploadFile, deleteMedia, updateMedia} = require('../../controller/Admin/mediacontroller')
 const { addProductProcess, allProducts, productDeleteProcess, productUpdateProcess, productById } = require('../../controller/Admin/productcontroller');
 const { addCatagoryProcess, allCatagories, catStatusUpdate, catagoryById, deleteCatagory } = require('../../controller/Admin/catagorycontroller');
-const { addSliderProceess, getSlider, sliderStatusUpdate } = require('../../controller/Admin/slidercontroller');
+const { addSliderProceess, getSlider, sliderStatusUpdate, sliderbyidEdit, sliderDeleteProcess } = require('../../controller/Admin/slidercontroller');
 
 const {upload} = require('../../middlewares/MediaIn');
+const { newUserProcess } = require('../../controller/Admin/CreateUserController');
 
 router.post('/site-setting-process',themeset)
 router.get('/navbar',getnavbar)
@@ -33,5 +34,8 @@ router.get('/catagory-delete-process/:id', deleteCatagory)
 router.get('/slider-and-banner', getSlider)
 router.post('/add-slider-process',upload, addSliderProceess)
 router.get('/slider-status-process/:id', sliderStatusUpdate)
+router.get('/slider-by-id/:id', sliderbyidEdit)
+router.get('/slider-delete-process/:id', sliderDeleteProcess)
+router.post('/new-user-process', newUserProcess)
 
 module.exports=router

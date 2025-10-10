@@ -1,4 +1,6 @@
+const { log } = require('console');
 const productmodel = require('../../models/productmodel');
+const catagorymodel = require('../../models/catagorymodel')
 const path = require('path');
 
 const allProducts = async (req, res) => {
@@ -22,10 +24,14 @@ const findProduct = async (req, res) => {
 }
 
 const productByCatagory = async (req, res) => {
-    const { id } = req.params
+    const { slug } = req.params
+    
     let data;
-    if (id) {
-        data = await productmodel.find({ product_cat_id: id })
+    if (slug) {
+        const cat = await catagorymodel.find({ cat_slug: slug, cat_status: 1 })
+        data = await productmodel.find({product_cat_id: cat[0]._id})
+        
+        
     } else {
         data = await productmodel.find()
     }
