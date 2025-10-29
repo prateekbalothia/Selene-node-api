@@ -1,9 +1,9 @@
-const usermodel = require('../../models/usermodel')
+const Contactusermodel = require('../../models/Contactusermodel')
 
 const contactUser =async (req, res)=>{
     const {name,email,subject,message} = req.body;
 
-    const newUser = new usermodel({
+    const newUser = new Contactusermodel({
         name,
         email,
         subject,

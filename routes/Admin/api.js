@@ -7,9 +7,9 @@ const {getMedia, uploadFile, deleteMedia, updateMedia} = require('../../controll
 const { addProductProcess, allProducts, productDeleteProcess, productUpdateProcess, productById } = require('../../controller/Admin/productcontroller');
 const { addCatagoryProcess, allCatagories, catStatusUpdate, catagoryById, deleteCatagory } = require('../../controller/Admin/catagorycontroller');
 const { addSliderProceess, getSlider, sliderStatusUpdate, sliderbyidEdit, sliderDeleteProcess } = require('../../controller/Admin/slidercontroller');
+const { newUserProcess, userAuthProcess } = require('../../controller/Admin/UserController');
 
 const {upload} = require('../../middlewares/MediaIn');
-const { newUserProcess } = require('../../controller/Admin/CreateUserController');
 
 router.post('/site-setting-process',themeset)
 router.get('/navbar',getnavbar)
@@ -19,7 +19,7 @@ router.post('/navbar-add-process',addnavbarProcess)
 router.get('/navbar-delete-process/:id',deleteNav)
 router.get('/all-media',getMedia)
 router.post('/upload',upload,uploadFile)
-router.get('/upload-delete-process/:_id', deleteMedia)
+router.get('/upload-delete-process/:_id', deleteMedia) 
 router.get('/upload-update-process/:_id', updateMedia)
 router.get('/all-products', allProducts)
 router.get('/all-products-by-id/:id', productById)
@@ -37,5 +37,6 @@ router.get('/slider-status-process/:id', sliderStatusUpdate)
 router.get('/slider-by-id/:id', sliderbyidEdit)
 router.get('/slider-delete-process/:id', sliderDeleteProcess)
 router.post('/new-user-process', newUserProcess)
+router.post('/login', userAuthProcess)
 
 module.exports=router
